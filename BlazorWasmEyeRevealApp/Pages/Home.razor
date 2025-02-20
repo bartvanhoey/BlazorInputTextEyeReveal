@@ -1,0 +1,69 @@
+﻿@page "/"
+@using System.ComponentModel.DataAnnotations
+
+<EditForm Model="Model" OnSubmit="Submit" FormName="Starship1">
+    <DataAnnotationsValidator/>
+    <div class="col-3 form-floating mb-3 input-with-eye-icon">
+        @if (Model != null)
+        {
+            <InputText id="idPassword" type="@PasswordType" class="form-control" @bind-Value="Model.Password" placeholder=""/>
+            <label for="idPassword">Password*</label>
+            <button class="btn btn-default icon" @onclick='()=> ToggleEyeIcon("password")'><i class="bi bi-eye"></i></button>
+            <ValidationMessage For="@(() => Model.Password)"/>
+        }
+    </div>
+    <div class="col-3 form-floating mb-3 input-with-eye-icon">
+        @if (Model != null)
+        {
+            <InputText id="idConfirmPassword" type="@ConfirmPasswordType" class="form-control" @bind-Value="Model.ConfirmPassword" placeholder=""/>
+            <label for="idConfirmPassword">Confirm Password*</label>
+            <button class="btn btn-default icon"  @onclick='()=> ToggleEyeIcon("confirm-password")'><i class="bi bi-eye"></i></button>
+            <ValidationMessage For="@(() => Model.ConfirmPassword)"/>
+        }
+    </div>
+    <div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+</EditForm>
+
+@code {
+    [SupplyParameterFromForm] private RegisterInputModel? Model { get; set; }
+
+    private string? PasswordType { get; set; } = "password";
+    private string? ConfirmPasswordType { get; set; } = "password";
+
+    protected override void OnInitialized() => Model ??= new();
+
+    private void Submit()
+    {
+        Console.WriteLine($"password = {Model?.Password}; confirm password = {Model?.ConfirmPassword}");
+    }
+
+    public class RegisterInputModel
+    {
+        [Required(ErrorMessage = "Password is required")]
+        [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
+        [DataType(DataType.Password)]
+        public string? Password { get; set; }
+
+        [Required(ErrorMessage = "Confirm Password is required")]
+        [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
+        [DataType(DataType.Password)]
+        [Compare("Password")]
+        public string? ConfirmPassword { get; set; }
+    }
+
+    private void ToggleEyeIcon(string element)
+    {
+        switch (element)
+        {
+            case "password":
+                PasswordType = PasswordType == "password" ? "text" : "password";
+                break;
+            case "confirm-password":
+                ConfirmPasswordType = ConfirmPasswordType == "password" ? "text" : "password";
+                break;
+        }
+    }
+
+}
