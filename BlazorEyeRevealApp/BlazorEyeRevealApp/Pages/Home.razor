@@ -1,0 +1,66 @@
+﻿@page "/"
+
+
+
+<EditForm class="d-flex flex-column" Model="@Model" OnValidSubmit="@SubmitAsync" FormName="EditUserForm">
+    <DataAnnotationsValidator/>
+
+    <div class="col-12 form-floating mb-3">
+        <InputText id="idEmail" class="form-control" @bind-Value="Model.Email" placeholder="email"/>
+        <label for="idEmail">Email address*</label>
+        <ValidationMessage For="@(() => Model.Email)"/>
+    </div>
+    
+    <div class="row g-0">
+        <div class="form-floating col-6 mb-3 ml-auto gx-1">
+            <InputText id="idPassword" type="password" @bind-Value="Model.Password"
+                       class="form-control custom-icon"
+                       autocomplete="new-password" aria-required="true" />
+            <label for="idPassword">Password*</label>
+            @* <ValidationMessage For="() => Model.Password" class="text-danger"/> *@
+        </div>
+    </div>
+    <div class="row g-0">
+        <div class="form-floating col-6 mb-3 ml-auto gx-1 input-with-icon">
+            <InputText id="idConfirmPassword" type="password" @bind-Value="Model.ConfirmPassword"
+                       class="form-control" autocomplete="new-password" aria-required="true"
+                       placeholder="confirm-password" @onclick="Callback"/>
+            <button class="btn btn-default icon"><i class="bi bi-house-door-fill-nav-menu"></i></button>
+            <label for="idConfirmPassword">Repeat Password*</label>
+        </div>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+        <label for="floatingInput">Email address</label>
+    </div>
+    
+    <div class="row g-0">
+        <button class="btn btn-default icon"><i class="bi bi-house-door-fill-nav-menu"></i></button>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Add User</button>
+
+
+</EditForm>
+
+@code {
+
+    private class UserModel
+    {
+        public string? Password { get; set; }
+        public string? ConfirmPassword { get; set; }
+        public string? Email { get; set; }
+    }
+
+    private UserModel? Model = new UserModel();
+
+    private async Task SubmitAsync()
+    {
+        await Task.CompletedTask;
+    }
+
+    private void Callback(MouseEventArgs obj)
+    {
+    }
+
+}
