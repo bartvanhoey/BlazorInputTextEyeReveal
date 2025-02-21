@@ -21,14 +21,6 @@
             <ValidationMessage For="@(() => Model.ConfirmPassword)"/>
         }
     </div>
-    <div class="col-12 form-floating mb-3">
-        @if (Model != null)
-        {
-            <InputText id="idAnotherPassword" type="password" class="form-control" @bind-Value="Model.AnotherPassword" placeholder=""/>
-            <label for="idAnotherPassword">Another Password*</label>
-            <ValidationMessage For="@(() => Model.AnotherPassword)"/>
-        }
-    </div>
     <div>
         <button class="btn btn-primary" type="submit">Submit</button>
     </div>
