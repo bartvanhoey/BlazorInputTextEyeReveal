@@ -3,22 +3,30 @@
 
 <EditForm Model="Model" OnSubmit="Submit" FormName="Starship1">
     <DataAnnotationsValidator/>
-    <div class="col-3 form-floating mb-3 input-with-eye-icon">
+    <div class="col-6 form-floating mb-3 input-with-eye-icon">
         @if (Model != null)
         {
             <InputText id="idPassword" type="@PasswordType" class="form-control" @bind-Value="Model.Password" placeholder=""/>
             <label for="idPassword">Password*</label>
-            <button class="btn btn-default icon" @onclick='()=> ToggleEyeIcon("password")'><i class="bi bi-eye"></i></button>
+            <button class="btn btn-default btn-eye-icon" @onclick='()=> ToggleEyeIcon("password")'><i class="@CssClassPasswordEyeIcon"></i></button>
             <ValidationMessage For="@(() => Model.Password)"/>
         }
     </div>
-    <div class="col-3 form-floating mb-3 input-with-eye-icon">
+    <div class="col-6 form-floating mb-3 input-with-eye-icon">
         @if (Model != null)
         {
             <InputText id="idConfirmPassword" type="@ConfirmPasswordType" class="form-control" @bind-Value="Model.ConfirmPassword" placeholder=""/>
             <label for="idConfirmPassword">Confirm Password*</label>
-            <button class="btn btn-default icon"  @onclick='()=> ToggleEyeIcon("confirm-password")'><i class="bi bi-eye"></i></button>
+            <button class="btn btn-default btn-eye-icon"  @onclick='()=> ToggleEyeIcon("confirm-password")'><i class="@CssClassConfirmPasswordEyeIcon"></i></button>
             <ValidationMessage For="@(() => Model.ConfirmPassword)"/>
+        }
+    </div>
+    <div class="col-12 form-floating mb-3">
+        @if (Model != null)
+        {
+            <InputText id="idAnotherPassword" type="password" class="form-control" @bind-Value="Model.AnotherPassword" placeholder=""/>
+            <label for="idAnotherPassword">Another Password*</label>
+            <ValidationMessage For="@(() => Model.AnotherPassword)"/>
         }
     </div>
     <div>
@@ -31,6 +39,8 @@
 
     private string? PasswordType { get; set; } = "password";
     private string? ConfirmPasswordType { get; set; } = "password";
+    private string CssClassPasswordEyeIcon { get; set; } = "bi-eye-icon";
+    private string CssClassConfirmPasswordEyeIcon { get; set; } = "bi-eye-icon";
 
     protected override void OnInitialized() => Model ??= new();
 
@@ -51,6 +61,8 @@
         [DataType(DataType.Password)]
         [Compare("Password")]
         public string? ConfirmPassword { get; set; }
+
+        public string? AnotherPassword { get; set; }
     }
 
     private void ToggleEyeIcon(string element)
@@ -58,9 +70,12 @@
         switch (element)
         {
             case "password":
+                CssClassPasswordEyeIcon = PasswordType == "password" ? "bi-eye-icon-slash" : "bi-eye-icon";
                 PasswordType = PasswordType == "password" ? "text" : "password";
+                
                 break;
             case "confirm-password":
+                CssClassConfirmPasswordEyeIcon = ConfirmPasswordType == "password" ? "bi-eye-icon-slash" : "bi-eye-icon";
                 ConfirmPasswordType = ConfirmPasswordType == "password" ? "text" : "password";
                 break;
         }
