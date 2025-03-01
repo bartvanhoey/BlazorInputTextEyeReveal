@@ -25,7 +25,7 @@
                 <InputText id="password" type="@PasswordType" @bind-Value="Model.Password" class="form-control"
                            autocomplete="new-password"
                            aria-required="true"/>
-                <button class="btn btn-default btn-eye-icon" @onclick="TogglePasswordReveal"><i class="@CssClassPasswordEyeIcon"></i></button>
+                <button type="button" class="btn btn-default btn-eye-icon" @onclick="TogglePasswordReveal"><i class="@CssClassPasswordEyeIcon"></i></button>
                 <label for="password">Password</label>
                 <ValidationMessage For="() => Model.Password" class="text-danger"/>
             </div>
